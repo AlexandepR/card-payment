@@ -10,18 +10,17 @@ import {DatePicker} from "@mui/x-date-pickers";
 import { makeStyles, createStyles } from '@mui/styles'
 // import {createMuiTheme} from "@material-ui/core";
 import clsx from "clsx";
+// import {CurrentRateAPI} from "../api/api";
 // import makeStyles from '@material-ui/styles'
 // export {default} from './Buttons'
 
-const theme = createTheme();
-
-
+const theme = createTheme({});
 const useStyles = makeStyles({
     container: {
         position: 'absolute',
         left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
+        // top: '50%',
+        transform: 'translate(-50%, -10%)',
         textAlign: 'center'
     },
     btn: {
@@ -47,24 +46,40 @@ const useStyles = makeStyles({
 })
 
 
+
 export default function Payment() {
-    const classes = useStyles()
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
-
-
     const [card, setCard] = useState('')
+    // debugger
     const [dateCard, setDateCard] = useState('')
     const [dateKey, setDateKey] = useState('')
     const [amount, setAmount] = useState('');
     const [cvv, setCvv] = useState('');
+    const [state, setState] = useState<any>(null)
+
+
+    // useEffect(() => {
+    //     CurrentRateAPI.postPayment('TEST')
+    //         .then((res) => {
+    //             const responseState = res.data
+    //             setState(responseState)
+    //         })
+    //         .catch(error => console.log('error', error));
+    //     // return () => {
+    //     //     clearInterval()
+    //     // console.log('RESET')
+    //     // }
+    // }, [])
+
+    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     const data = new FormData(event.currentTarget);
+    //     console.log({
+    //         email: data.get('email'),
+    //         password: data.get('password'),
+    //     });
+    // };
+
+
 
     const handleCardNumber = () => {
         const re = /[0-9]+/g
@@ -77,27 +92,16 @@ export default function Payment() {
         })
         return creditCard.join('')
     }
-
     const handleChangeCardNumber = (e: any) => {
         const re = /[0-9]+/g;
         if (e.target.value === '' || re.test(e.target.value))
         {setCard(e.target.value)} else (setCard(""))
     }
-
-    // const handleChangeDate = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null) => {
     const handleChangeDate = (e: any, keyboardInputValue: string | undefined) => {
-        // const regexddmmyyyy = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
         // @ts-ignore
         setDateKey(keyboardInputValue)
         setDateCard(e)
     }
-    // const handleChangeDate = (e:any, date:any) => {
-    //     setDateCard({
-    //         // @ts-ignore
-    //         appointmentDate: date.value
-    //     })}
-
-
     const handleChangeAmount = (e: any) => {
         const re = /[0-9]+/g;
         if (e.target.value === '' || re.test(e.target.value))
@@ -108,31 +112,22 @@ export default function Payment() {
         if (e.target.value === '' || re.test(e.target.value))
         {setCvv(e.target.value)} else (setCvv(""))
     }
-    // const isTrue = card.length !== 2
 
+    const classes = useStyles()
     // @ts-ignore
     return (
         <React.StrictMode>
-
-
-
             <CssBaseline/>
-
-            {/*<LocalizationProvider dateAdapter={AdapterDateFns}>*/}
-            {/*<React.Fragment>*/}
             <Head>
                 <title>Payment</title>
                 <meta name="description" content='test for Datasub'/>
             </Head>
             <main>
                 <ThemeProvider theme={theme}>
-
-                    {/*    <CssBaseline/>*/}
                     <Container component="main" maxWidth="xs">
-
                         <Box
                             sx={{
-                                marginTop: 8,
+                                marginTop: 6,
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
@@ -144,7 +139,9 @@ export default function Payment() {
                             <Typography component="h1" variant="h5">
                                 Payment
                             </Typography>
-                            <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
+                            <Box component="form" noValidate
+                                 // onSubmit={handleSubmit}
+                                 sx={{mt: 3}}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
                                         <TextField
@@ -176,12 +173,9 @@ export default function Payment() {
                                                 label="MM/YYYY Date"
                                                 value={dateCard}
                                                 onChange={handleChangeDate}
-                                                // onYearChange={handleChangeDate}
-                                                // textFieldStyle={{width: '100%'}}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
                                         </LocalizationProvider>
-
                                     </Grid>
                                     <Grid item xs={12} sm={5}>
                                         <TextField
@@ -200,14 +194,12 @@ export default function Payment() {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-
                                         <TextField
                                             required
                                             fullWidth
                                             name="Amount"
                                             label="Amount"
                                             value={amount}
-                                            // inputProps={{ inputmode: 'numeric', pattern: '[0-9]*' }}
                                             onChange={handleChangeAmount}
                                             id="Amount"
                                             sx={{
@@ -217,6 +209,7 @@ export default function Payment() {
                                         />
                                     </Grid>
                                 </Grid>
+                                {/*<Grid item xs={122} sm={50}>*/}
                                 <div className={classes.container}>
                                 <Button
                                     disabled={card.length !== 20 ||
@@ -230,11 +223,13 @@ export default function Payment() {
                                     Pay
                                 </Button>
                                 </div>
+                                {/*</Grid>*/}
                             </Box>
                         </Box>
                     </Container>
                 </ThemeProvider>
             </main>
+            <CssBaseline/>
         </React.StrictMode>
     )
 }
