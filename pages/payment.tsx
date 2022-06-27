@@ -11,39 +11,41 @@ import { makeStyles, createStyles } from '@mui/styles'
 // import {createMuiTheme} from "@material-ui/core";
 import clsx from "clsx";
 // import {CurrentRateAPI} from "../api/api";
+import {CurrentRateAPI} from "../api/api";
 // import makeStyles from '@material-ui/styles'
 // export {default} from './Buttons'
 
 const theme = createTheme({});
-const useStyles = makeStyles({
-    container: {
-        position: 'absolute',
-        left: '50%',
-        // top: '50%',
-        transform: 'translate(-50%, -10%)',
-        textAlign: 'center'
-    },
-    btn: {
-        border: 'none',
-        margin: 20,
-        width: 400,
-        height: 45,
-        borderRadius: 6,
-        textTransform: 'uppercase',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-        cursor: 'pointer',
-        color: '#fff',
-        backgroundSize: '200%',
-        transition: '1s',
-        backgroundPosition: 'right',
-        '&:hover': {
-            backgroundPosition: 'left'
-        }
-    },
-    btn1: {
-        backgroundImage: 'linear-gradient(45deg, #FFC312, #EE5A24, #00A8FF)'
-    }
-})
+// const useStyles = makeStyles({
+//     container: {
+//         position: 'absolute',
+//         left: '50%',
+//         // top: '50%',
+//         transform: 'translate(-50%, -15%)',
+//         textAlign: 'center'
+//     },
+//     btn: {
+//         border: 'none',
+//         margin: 20,
+//         width: 400,
+//         height: 45,
+//         borderRadius: 6,
+//         textTransform: 'uppercase',
+//         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+//         cursor: 'pointer',
+//         color: '#fff',
+//         backgroundSize: '200%',
+//         transition: '1s',
+//         backgroundPosition: 'right',
+//         '&:hover': {
+//             backgroundPosition: 'left'
+//         }
+//     },
+//     btn1: {
+//         backgroundImage: 'linear-gradient(45deg, #FFC312, #EE5A24, #00A8FF)'
+//     }
+// })
+
 
 
 
@@ -54,21 +56,27 @@ export default function Payment() {
     const [dateKey, setDateKey] = useState('')
     const [amount, setAmount] = useState('');
     const [cvv, setCvv] = useState('');
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState('')
 
-
-    // useEffect(() => {
-    //     CurrentRateAPI.postPayment('TEST')
-    //         .then((res) => {
-    //             const responseState = res.data
-    //             setState(responseState)
-    //         })
-    //         .catch(error => console.log('error', error));
-    //     // return () => {
-    //     //     clearInterval()
-    //     // console.log('RESET')
-    //     // }
-    // }, [])
+    const sendPay = () => {
+        // debugger
+        // useEffect(() => {
+            debugger
+            CurrentRateAPI.postPayment(card,dateCard,cvv,+amount)
+                .then((res) => {
+                    debugger
+                    const responseState = res.data
+                    console.log(responseState)
+                    setState(responseState)
+                    return <div> {JSON.stringify(state)}</div>
+                })
+                .catch(error => console.log('error', error));
+            // return () => {
+            //     clearInterval()
+            // console.log('RESET')
+            // }
+        // }, [])
+    }
 
     // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     //     event.preventDefault();
@@ -113,7 +121,7 @@ export default function Payment() {
         {setCvv(e.target.value)} else (setCvv(""))
     }
 
-    const classes = useStyles()
+    // const classes = useStyles()
     // @ts-ignore
     return (
         <React.StrictMode>
@@ -210,19 +218,20 @@ export default function Payment() {
                                     </Grid>
                                 </Grid>
                                 {/*<Grid item xs={122} sm={50}>*/}
-                                <div className={classes.container}>
+                                {/*<div className={classes.container}>*/}
                                 <Button
-                                    disabled={card.length !== 20 ||
-                                    cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
-                                    className={ `${classes.btn} ${classes.btn1}` }
+                                    // disabled={card.length !== 20 ||
+                                    // cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
+                                    // className={ `${classes.btn} ${classes.btn1}` }
                                     type="submit"
                                     fullWidth
                                     variant="contained"
+                                    onClick = {sendPay}
                                     sx={{mt: 3, mb: 2, }}
                                 >
                                     Pay
                                 </Button>
-                                </div>
+                                {/*</div>*/}
                                 {/*</Grid>*/}
                             </Box>
                         </Box>
