@@ -62,6 +62,7 @@ export default function Payment() {
 
     const [card, setCard] = useState('')
     const [dateCard, setDateCard] = useState('')
+    const [dateKey, setDateKey] = useState('')
     const [amount, setAmount] = useState('');
     const [cvv, setCvv] = useState('');
 
@@ -83,11 +84,20 @@ export default function Payment() {
         {setCard(e.target.value)} else (setCard(""))
     }
 
-    const handleChangeDate = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null) => {
+    // const handleChangeDate = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | null) => {
+    const handleChangeDate = (e: any, keyboardInputValue: string | undefined) => {
         // const regexddmmyyyy = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
         // @ts-ignore
+        setDateKey(keyboardInputValue)
         setDateCard(e)
     }
+    // const handleChangeDate = (e:any, date:any) => {
+    //     setDateCard({
+    //         // @ts-ignore
+    //         appointmentDate: date.value
+    //     })}
+
+
     const handleChangeAmount = (e: any) => {
         const re = /[0-9]+/g;
         if (e.target.value === '' || re.test(e.target.value))
@@ -98,7 +108,7 @@ export default function Payment() {
         if (e.target.value === '' || re.test(e.target.value))
         {setCvv(e.target.value)} else (setCvv(""))
     }
-
+    // const isTrue = card.length !== 2
 
     // @ts-ignore
     return (
@@ -166,6 +176,8 @@ export default function Payment() {
                                                 label="MM/YYYY Date"
                                                 value={dateCard}
                                                 onChange={handleChangeDate}
+                                                // onYearChange={handleChangeDate}
+                                                // textFieldStyle={{width: '100%'}}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
                                         </LocalizationProvider>
@@ -207,7 +219,8 @@ export default function Payment() {
                                 </Grid>
                                 <div className={classes.container}>
                                 <Button
-                                    disabled={card.length !== 2}
+                                    disabled={card.length !== 20 ||
+                                    cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
                                     className={ `${classes.btn} ${classes.btn1}` }
                                     type="submit"
                                     fullWidth
