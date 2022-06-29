@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Fragment, useEffect, useState} from "react";
+import React, {ChangeEvent, Fragment, RefAttributes, useEffect, useState} from "react";
 import Head from "next/head";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
@@ -7,92 +7,83 @@ import {LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {DatePicker} from "@mui/x-date-pickers";
 // import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { makeStyles, createStyles } from '@mui/styles'
+
 // import {createMuiTheme} from "@material-ui/core";
 import clsx from "clsx";
-// import {CurrentRateAPI} from "../api/api";
 import {CurrentRateAPI} from "../api/api";
 // import makeStyles from '@material-ui/styles'
 // export {default} from './Buttons'
 
-const theme = createTheme({});
-// const useStyles = makeStyles({
-//     container: {
-//         position: 'absolute',
-//         left: '50%',
-//         // top: '50%',
-//         transform: 'translate(-50%, -15%)',
-//         textAlign: 'center'
-//     },
-//     btn: {
-//         border: 'none',
-//         margin: 20,
-//         width: 400,
-//         height: 45,
-//         borderRadius: 6,
-//         textTransform: 'uppercase',
-//         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-//         cursor: 'pointer',
-//         color: '#fff',
-//         backgroundSize: '200%',
-//         transition: '1s',
-//         backgroundPosition: 'right',
-//         '&:hover': {
-//             backgroundPosition: 'left'
-//         }
-//     },
-//     btn1: {
-//         backgroundImage: 'linear-gradient(45deg, #FFC312, #EE5A24, #00A8FF)'
-//     }
-// })
 
+// import {makeStyles, createStyles} from '@mui/styles'
+// import {makeStyles, createStyles} from '@material-ui/core'
+import {makeStyles, createStyles} from '@material-ui/styles'
 
+export const theme = createTheme({});
+const useStyles = makeStyles({
+    container: {
+        position: 'absolute',
+        left: '50%',
+        transform: 'translate(-50%, 1%)',
+        textAlign: 'center'
+    },
+    btn: {
+        border: 'none',
+        margin: 20,
+        width: 400,
+        height: 45,
+        borderRadius: 6,
+        textTransform: 'uppercase',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        cursor: 'pointer',
+        color: '#fff',
+        backgroundSize: '200%',
+        transition: '1s',
+        backgroundPosition: 'right',
+        '&:hover': {
+            backgroundPosition: 'left'
+        }
+    },
+    btn1: {
+        backgroundImage: 'linear-gradient(45deg, #34495e, #9b59b6, #3498db)'
+    }
+})
 
 
 export default function Payment() {
     const [card, setCard] = useState('')
-    // debugger
+    // const [dateCard, setDateCard] = useState<Date | null>(new Date())
     const [dateCard, setDateCard] = useState('')
     const [dateKey, setDateKey] = useState('')
     const [amount, setAmount] = useState('');
     const [cvv, setCvv] = useState('');
-    const [state, setState] = useState('')
+    const [state, setState] = useState<any>()
 
+    const classes = useStyles()
+
+    // useEffect(() => {
     const sendPay = () => {
-        // debugger
-        // useEffect(() => {
-            debugger
-            CurrentRateAPI.postPayment(card,dateCard,cvv,+amount)
-                .then((res) => {
-                    debugger
-                    const responseState = res.data
-                    console.log(responseState)
-                    setState(responseState)
-                    return <div> {JSON.stringify(state)}</div>
-                })
-                .catch(error => console.log('error', error));
-            // return () => {
-            //     clearInterval()
-            // console.log('RESET')
-            // }
-        // }, [])
+        CurrentRateAPI.postPayment(card.trim(),
+            dateKey,
+            cvv, +amount
+        )
+            .then((res) => {
+                const responseState = res.data
+                console.log(responseState)
+                setState(responseState)
+                alert(JSON.stringify(state))
+                return <div> {JSON.stringify(state)}</div>
+            })
+            .catch(error => console.log('error', error));
     }
-
-    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     console.log({
-    //         email: data.get('email'),
-    //         password: data.get('password'),
-    //     });
-    // };
+    // }, [])
 
 
-
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    };
     const handleCardNumber = () => {
-        const re = /[0-9]+/g
-        // @ts-ignore
-        const rawText = [...card.split(' ').join('')]
+        const rawText = Array.from(card.split(' ').join(''))
         const creditCard = [] as string[]
         rawText.forEach((t, i) => {
             if (i % 4 === 0) creditCard.push(' ')
@@ -100,29 +91,30 @@ export default function Payment() {
         })
         return creditCard.join('')
     }
-    const handleChangeCardNumber = (e: any) => {
+    const handleChangeCardNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
         const re = /[0-9]+/g;
-        if (e.target.value === '' || re.test(e.target.value))
-        {setCard(e.target.value)} else (setCard(""))
+        if (e.target.value === '' || re.test(e.target.value)) {
+            setCard(e.target.value)
+        } else (setCard(""))
     }
-    const handleChangeDate = (e: any, keyboardInputValue: string | undefined) => {
-        // @ts-ignore
-        setDateKey(keyboardInputValue)
-        setDateCard(e)
+    const handleChangeDate = (e: any, keyboardInputValue?: (string)) => {
+        if(keyboardInputValue){setDateKey(keyboardInputValue)}
+        if(e) {setDateCard(e)
+        }
     }
-    const handleChangeAmount = (e: any) => {
+    const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
         const re = /[0-9]+/g;
-        if (e.target.value === '' || re.test(e.target.value))
-        {setAmount(e.target.value)} else (setAmount(""))
+        if (e.target.value === '' || re.test(e.target.value)) {
+            setAmount(e.target.value)
+        } else (setAmount(""))
     }
-    const handleChangeCvv = (e: any) => {
+    const handleChangeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
         const re = /[0-9]+/g;
-        if (e.target.value === '' || re.test(e.target.value))
-        {setCvv(e.target.value)} else (setCvv(""))
+        if (e.target.value === '' || re.test(e.target.value)) {
+            setCvv(e.target.value)
+        } else (setCvv(""))
     }
 
-    // const classes = useStyles()
-    // @ts-ignore
     return (
         <React.StrictMode>
             <CssBaseline/>
@@ -147,8 +139,9 @@ export default function Payment() {
                             <Typography component="h1" variant="h5">
                                 Payment
                             </Typography>
-                            <Box component="form" noValidate
-                                 // onSubmit={handleSubmit}
+                            <Box component="form"
+                                 noValidate
+                                 onSubmit={handleSubmit}
                                  sx={{mt: 3}}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
@@ -217,22 +210,22 @@ export default function Payment() {
                                         />
                                     </Grid>
                                 </Grid>
-                                {/*<Grid item xs={122} sm={50}>*/}
-                                {/*<div className={classes.container}>*/}
-                                <Button
-                                    // disabled={card.length !== 20 ||
-                                    // cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
-                                    // className={ `${classes.btn} ${classes.btn1}` }
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    onClick = {sendPay}
-                                    sx={{mt: 3, mb: 2, }}
-                                >
-                                    Pay
-                                </Button>
-                                {/*</div>*/}
-                                {/*</Grid>*/}
+                                <Grid item xs={12} sm={5}>
+                                    <div className={classes.container}>
+                                        <Button
+                                            // disabled={card.length !== 20 ||
+                                            // cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
+                                            className={ `${classes.btn} ${classes.btn1}` }
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            onClick={sendPay}
+                                            sx={{mt: 3, mb: 2,}}
+                                        >
+                                            Pay
+                                        </Button>
+                                    </div>
+                                </Grid>
                             </Box>
                         </Box>
                     </Container>
@@ -242,7 +235,3 @@ export default function Payment() {
         </React.StrictMode>
     )
 }
-// const [card, setCard] = useState('')
-// const [dateCard, setDateCard] = useState('')
-// const [amount, setAmount] = useState('');
-// const [cvv, setCvv] = useState('');
