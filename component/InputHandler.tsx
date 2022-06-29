@@ -1,20 +1,18 @@
-import React, {useState} from "react";
-import {dividerClasses, TextField} from "@mui/material";
+import React, {ChangeEvent} from "react";
+import {TextField} from "@mui/material";
 import {useStyles} from "../pages/payment";
 
 export type HandleType = {
-    name: any
-    setState: any
-    value: any
-    maxLength?: any
+    name: string
+    setState: (event: string) => void
+    value: string
+    maxLength?: number
 }
 
 
-
-export const InputField = (props:HandleType) => {
+export const InputHandler = (props:HandleType) => {
     const classes = useStyles()
-   const handlerChange = (event:any) => {
-
+   const handlerChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const re = /[0-9]+/g;
         if (event.target.value === '' || re.test(event.target.value)) {
             props.setState(event.target.value)

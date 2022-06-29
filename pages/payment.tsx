@@ -1,28 +1,15 @@
-import React, {ChangeEvent, Fragment, RefAttributes, useEffect, useState} from "react";
+import React, {useState} from "react";
 import Head from "next/head";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {AppBar, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import PaymentIcon from '@mui/icons-material/Payment';
-import {LocalizationProvider} from '@mui/x-date-pickers';
+import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
-import {DatePicker} from "@mui/x-date-pickers";
 import TelegramIcon from '@mui/icons-material/Telegram';
-// import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-
-// import {createMuiTheme} from "@material-ui/core";
-import clsx from "clsx";
 import {CurrentRateAPI} from "../api/api";
-// import makeStyles from '@material-ui/styles'
-// export {default} from './Buttons'
-
-
-// import {makeStyles, createStyles} from '@mui/styles'
-// import {makeStyles, createStyles} from '@material-ui/core'
-import {makeStyles, createStyles} from '@material-ui/styles'
-import {Info, Security} from "@material-ui/icons";
-import Link from "next/link";
+import {makeStyles} from '@material-ui/styles'
 import {Toolbar} from "@material-ui/core";
-import {InputField} from "../component/handler";
+import {InputHandler} from "../component/InputHandler";
 
 export const theme = createTheme({});
 export const useStyles = makeStyles({
@@ -65,8 +52,7 @@ export default function Payment() {
     const [dateKey, setDateKey] = useState('')
     const [amount, setAmount] = useState('');
     const [cvv, setCvv] = useState('');
-    const [state, setState] = useState<any>()
-
+    const [state, setState] = useState<string>()
     const classes = useStyles()
 
     const sendPay = () => {
@@ -76,6 +62,7 @@ export default function Payment() {
         )
             .then((res) => {
                 const responseState = res.data
+                console.log(responseState)
                 setState(responseState)
             })
             .catch(error => console.log('error', error));
@@ -84,21 +71,6 @@ export default function Payment() {
     const handlerSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
     };
-    const handlerCardNumber = () => {
-        const rawText = Array.from(card.split(' ').join(''))
-        const creditCard = [] as string[]
-        rawText.forEach((t, i) => {
-            if (i % 4 === 0) creditCard.push(' ')
-            creditCard.push(t)
-        })
-        return creditCard.join('')
-    }
-    const handlerChangeCardNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const re = /[0-9]+/g;
-        if (e.target.value === '' || re.test(e.target.value)) {
-            setCard(e.target.value)
-        } else (setCard(""))
-    }
     const handlerChangeDate = (e: any, keyboardInputValue?: (string)) => {
         if (keyboardInputValue) {
             setDateKey(keyboardInputValue)
@@ -107,17 +79,14 @@ export default function Payment() {
             setDateCard(e)
         }
     }
-    const handlerChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const re = /[0-9]+/g;
-        if (e.target.value === '' || re.test(e.target.value)) {
-            setAmount(e.target.value)
-        } else (setAmount(""))
-    }
-    const handlerChangeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const re = /[0-9]+/g;
-        if (e.target.value === '' || re.test(e.target.value)) {
-            setCvv(e.target.value)
-        } else (setCvv(""))
+    const handleCardNumber = () => {
+        const rawText = Array.from(card.split(' ').join(''))
+        const creditCard = [] as string[]
+        rawText.forEach((t, i) => {
+            if (i % 4 === 0) creditCard.push(' ')
+            creditCard.push(t)
+        })
+        return creditCard.join('')
     }
 
     return (
@@ -150,10 +119,10 @@ export default function Payment() {
                                       justifyContent="center"
                                       alignItems="center">
                                     <Grid item xs={12}>
-                                        <InputField
+                                        <InputHandler
                                             setState={setCard}
                                             name={"Card number"}
-                                            value={card}
+                                            value={handleCardNumber()}
                                             maxLength={20}
                                         />
                                     </Grid>
@@ -172,7 +141,7 @@ export default function Payment() {
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm={5}>
-                                        <InputField
+                                        <InputHandler
                                             setState={setCvv}
                                             name={"Cvv"}
                                             value={cvv}
@@ -180,10 +149,10 @@ export default function Payment() {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <InputField
+                                        <InputHandler
                                             setState={setAmount}
                                             name={"Amount"}
-                                            value={cvv}
+                                            value={amount}
                                         />
                                     </Grid>
                                 </Grid>
@@ -211,10 +180,10 @@ export default function Payment() {
                 </ThemeProvider>
             </main>
             <AppBar position="static" elevation={0} component="footer" color="default"
-                    sx={{marginTop: 65,}}>
+                    sx={{marginTop: 65}}>
             </AppBar>
             <Toolbar style={{
-                justifyContent: "center",
+                justifyContent: "center"
             }}>
                 <Typography variant="caption">©2022 Alexander, alexandepp@gmail.com</Typography>
                 <a href="https://t.me/Alexandep_R"
