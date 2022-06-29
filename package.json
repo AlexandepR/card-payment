@@ -2,7 +2,7 @@
   "name": "card-payment",
   "description": "a really cool app",
   "engines": {
-    "node": "16.x"
+    "node":  "0.12.0"
   },
   "version": "0.1.0",
   "private": true,
