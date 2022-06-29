@@ -11,7 +11,7 @@ export type HandleType = {
 
 
 export const InputHandler = (props:HandleType) => {
-    const classes = useStyles()
+
    const handlerChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const re = /[0-9]+/g;
         if (event.target.value === '' || re.test(event.target.value)) {
@@ -21,7 +21,7 @@ export const InputHandler = (props:HandleType) => {
     return (
         <>
             <TextField
-                className={classes.field}
+                // className={classes.field}
                 required
                 fullWidth
                 value={props.value}
