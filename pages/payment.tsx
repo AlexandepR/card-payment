@@ -36,17 +36,17 @@ export const useStyles = makeStyles({
     btn: {
         background: 'red',
         backgroundColor: 'red',
-        // border: 'none',
-        // margin: 20,
+        border: 'none',
+        margin: 20,
         width: 400,
         height: 45,
         borderRadius: 6,
-        // textTransform: 'uppercase',
+        textTransform: 'uppercase',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         cursor: 'pointer',
         color: '#fff',
         backgroundSize: '250%',
-        transition: '1s',
+        // transition: '1s',
         backgroundPosition: 'right',
         '&:hover': {
             backgroundPosition: 'left'
