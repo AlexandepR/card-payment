@@ -1,11 +1,12 @@
 import React, {ChangeEvent, Fragment, RefAttributes, useEffect, useState} from "react";
 import Head from "next/head";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
+import {AppBar, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import PaymentIcon from '@mui/icons-material/Payment';
 import {LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {DatePicker} from "@mui/x-date-pickers";
+import TelegramIcon from '@mui/icons-material/Telegram';
 // import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 // import {createMuiTheme} from "@material-ui/core";
@@ -18,6 +19,10 @@ import {CurrentRateAPI} from "../api/api";
 // import {makeStyles, createStyles} from '@mui/styles'
 // import {makeStyles, createStyles} from '@material-ui/core'
 import {makeStyles, createStyles} from '@material-ui/styles'
+import {Info, Security} from "@material-ui/icons";
+import Link from "next/link";
+import {Toolbar} from "@material-ui/core";
+import {red} from "@mui/material/colors";
 
 export const theme = createTheme({});
 const useStyles = makeStyles({
@@ -26,6 +31,10 @@ const useStyles = makeStyles({
         left: '50%',
         transform: 'translate(-50%, 1%)',
         textAlign: 'center'
+    },
+    datepicker: {
+        boxShadow: '0 3px 5px 2px rgba(0,0,0, .3)',
+        borderRadius: 3
     },
     btn: {
         border: 'none',
@@ -52,7 +61,6 @@ const useStyles = makeStyles({
 
 export default function Payment() {
     const [card, setCard] = useState('')
-    // const [dateCard, setDateCard] = useState<Date | null>(new Date())
     const [dateCard, setDateCard] = useState('')
     const [dateKey, setDateKey] = useState('')
     const [amount, setAmount] = useState('');
@@ -61,7 +69,6 @@ export default function Payment() {
 
     const classes = useStyles()
 
-    // useEffect(() => {
     const sendPay = () => {
         CurrentRateAPI.postPayment(card.trim(),
             dateKey,
@@ -69,15 +76,10 @@ export default function Payment() {
         )
             .then((res) => {
                 const responseState = res.data
-                console.log(responseState)
                 setState(responseState)
-                alert(JSON.stringify(state))
-                return <div> {JSON.stringify(state)}</div>
             })
             .catch(error => console.log('error', error));
     }
-    // }, [])
-
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -98,8 +100,11 @@ export default function Payment() {
         } else (setCard(""))
     }
     const handleChangeDate = (e: any, keyboardInputValue?: (string)) => {
-        if(keyboardInputValue){setDateKey(keyboardInputValue)}
-        if(e) {setDateCard(e)
+        if (keyboardInputValue) {
+            setDateKey(keyboardInputValue)
+        }
+        if (e) {
+            setDateCard(e)
         }
     }
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +125,6 @@ export default function Payment() {
             <CssBaseline/>
             <Head>
                 <title>Payment</title>
-                <meta name="description" content='test for Datasub'/>
             </Head>
             <main>
                 <ThemeProvider theme={theme}>
@@ -131,9 +135,8 @@ export default function Payment() {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                            }}
-                        >
-                            <Avatar sx={{height: '50px', width: '50px', m: 2, bgcolor: 'secondary.main'}}>
+                            }}>
+                            <Avatar sx={{height: '50px', width: '50px', m: 2, bgcolor: 'cadetblue'}}>
                                 <PaymentIcon sx={{height: '35px', width: '35px'}}/>
                             </Avatar>
                             <Typography component="h1" variant="h5">
@@ -143,7 +146,10 @@ export default function Payment() {
                                  noValidate
                                  onSubmit={handleSubmit}
                                  sx={{mt: 3}}>
-                                <Grid container spacing={2}>
+                                <Grid container
+                                      spacing={2}
+                                      justifyContent="center"
+                                      alignItems="center">
                                     <Grid item xs={12}>
                                         <TextField
                                             inputProps={{maxLength: 20}}
@@ -161,22 +167,18 @@ export default function Payment() {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={7}>
-                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                            <TextField
-                                                sx={{
-                                                    position: "absolute",
-                                                    boxShadow: 5,
-                                                    borderRadius: 1
-                                                }}
-                                            />
-                                            <DatePicker
-                                                inputFormat="MM/yyyy"
-                                                label="MM/YYYY Date"
-                                                value={dateCard}
-                                                onChange={handleChangeDate}
-                                                renderInput={(params) => <TextField {...params} />}
-                                            />
-                                        </LocalizationProvider>
+                                        <div className={classes.datepicker}>
+                                            <LocalizationProvider
+                                                dateAdapter={AdapterDateFns}>
+                                                <DatePicker
+                                                    inputFormat="MM/yyyy"
+                                                    label="MM/YYYY Date"
+                                                    value={dateCard}
+                                                    onChange={handleChangeDate}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                />
+                                            </LocalizationProvider>
+                                        </div>
                                     </Grid>
                                     <Grid item xs={12} sm={5}>
                                         <TextField
@@ -213,9 +215,9 @@ export default function Payment() {
                                 <Grid item xs={12} sm={5}>
                                     <div className={classes.container}>
                                         <Button
-                                            // disabled={card.length !== 20 ||
-                                            // cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
-                                            className={ `${classes.btn} ${classes.btn1}` }
+                                            disabled={card.length !== 20 ||
+                                            cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
+                                            className={`${classes.btn} ${classes.btn1}`}
                                             type="submit"
                                             fullWidth
                                             variant="contained"
@@ -227,10 +229,28 @@ export default function Payment() {
                                     </div>
                                 </Grid>
                             </Box>
+                            <Grid>
+                            </Grid>
                         </Box>
                     </Container>
                 </ThemeProvider>
             </main>
+            <AppBar position="static" elevation={0} component="footer" color="default"
+                    sx={{marginTop: 65,}}>
+            </AppBar>
+            <Toolbar style={{
+                justifyContent: "center",
+            }}>
+                <Typography variant="caption">©2022 Alexander, alexandepp@gmail.com</Typography>
+                <a href="https://t.me/Alexandep_R"
+                   target="_blank">
+                    <Avatar sx={{height: '35px', width: '35px', m: 2, bgcolor: '#5C6BC0'}}>
+                        <TelegramIcon
+                            style={{cursor: 'pointer'}}
+                            sx={{height: '25px', width: '25px'}}/>
+                    </Avatar>
+                </a>
+            </Toolbar>
             <CssBaseline/>
         </React.StrictMode>
     )

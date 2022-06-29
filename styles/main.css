@@ -1,9 +1,9 @@
 body {
     font-family: 'Work Sans', sans-serif;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.75), rgba(33, 89, 253, 0.75));
-    height: 100vh;
-    animation: gradient 4s ease infinite;
-    background-size: 400% 400%;
+    background: linear-gradient(45deg, rgb(255, 255, 255), rgba(33, 62, 253, 0.53));
+    height: 95vh;
+    animation: gradient 3.5s infinite;
+    background-size: 230% 200%;
 }
 
 @keyframes gradient {
