@@ -44,7 +44,7 @@ export const useStyles = makeStyles({
         cursor: 'pointer',
         color: '#fff',
         backgroundSize: '200%',
-        transition: '1s',
+        // transition: '1s',
         backgroundPosition: 'right',
         '&:hover': {
             backgroundPosition: 'left'
@@ -194,7 +194,7 @@ export default function Payment() {
             <AppBar position="static" elevation={0} component="footer" color="default"
                     sx={{marginTop: 65}}>
             </AppBar>
-           
+
             <CssBaseline/>
         </React.StrictMode>
     )
