@@ -6,7 +6,7 @@ import {ThemeProvider} from "@mui/styles";
 import {CacheProvider} from "@emotion/react";
 import {createTheme} from "@mui/material/styles";
 
-const cache = createEmotionCache();
+// const cache = createEmotionCache();
 export const theme = createTheme({});
 export const useStyles = makeStyles({
     container: {
@@ -43,14 +43,14 @@ export const useStyles = makeStyles({
 
 import createCache from '@emotion/cache';
 
-export function createEmotionCache() {
-    return createCache({ key: 'css' });
-}
+// export function createEmotionCache() {
+//     return createCache({ key: 'css' });
+// }
 
 
 export default function Home() {
         return  (
-            <CacheProvider value={cache}>
+            // <CacheProvider value={cache}>
                 <ThemeProvider theme={theme}>
                     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                     <CssBaseline />
