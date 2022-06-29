@@ -2,6 +2,7 @@
   "name": "card-payment",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://AlexandepR.github.io/card-payment",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -28,7 +29,7 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/node": "16.11.41",
+    "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
     "eslint": "8.18.0",
