@@ -45,7 +45,6 @@ export const useStyles = makeStyles({
     }
 })
 
-
 export default function Payment() {
     const [card, setCard] = useState('')
     const [dateCard, setDateCard] = useState('')
