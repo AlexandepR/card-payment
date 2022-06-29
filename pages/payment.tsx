@@ -34,17 +34,19 @@ export const useStyles = makeStyles({
         borderRadius: 3,
     },
     btn: {
-        border: 'none',
-        margin: 20,
+        background: 'red',
+        backgroundColor: 'red',
+        // border: 'none',
+        // margin: 20,
         width: 400,
         height: 45,
         borderRadius: 6,
-        textTransform: 'uppercase',
+        // textTransform: 'uppercase',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         cursor: 'pointer',
         color: '#fff',
-        backgroundSize: '200%',
-        // transition: '1s',
+        backgroundSize: '250%',
+        transition: '1s',
         backgroundPosition: 'right',
         '&:hover': {
             backgroundPosition: 'left'
@@ -171,8 +173,8 @@ export default function Payment() {
                                 <Grid item xs={12} sm={5}>
                                     <div className={classes.container}>
                                         <Button
-                                            disabled={card.length !== 20 ||
-                                            cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
+                                            // disabled={card.length !== 20 ||
+                                            // cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
                                             className={`${classes.btn} ${classes.btn1}`}
                                             // type="submit"
                                             fullWidth
