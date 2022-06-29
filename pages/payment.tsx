@@ -66,7 +66,6 @@ export default function Payment() {
             })
             .catch(error => console.log('error', error));
     }
-
     const handlerSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
     };
