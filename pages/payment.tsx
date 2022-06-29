@@ -160,7 +160,7 @@ export default function Payment() {
                                             disabled={card.length !== 20 ||
                                             cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
                                             className={`${classes.btn} ${classes.btn1}`}
-                                            type="submit"
+                                            // type="submit"
                                             fullWidth
                                             variant="contained"
                                             onClick={sendPay}
