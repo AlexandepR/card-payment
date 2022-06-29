@@ -10,6 +10,7 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import {CurrentRateAPI} from "../api/api";
 import {Toolbar} from "@material-ui/core";
 import {InputHandler} from "../component/InputHandler";
+import classes from "*.module.css";
 
 
 export const theme = createTheme({});
@@ -188,7 +189,6 @@ export default function Payment() {
             }}>
                 <Typography variant="caption">©2022 Alexander, alexandepp@gmail.com</Typography>
                 <a href="https://t.me/Alexandep_R"
-                   // target="_blank"
                 >
                     <Avatar sx={{height: '35px', width: '35px', m: 2, bgcolor: '#5C6BC0'}}>
                         <TelegramIcon
