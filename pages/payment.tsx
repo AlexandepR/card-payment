@@ -22,19 +22,19 @@ import {makeStyles, createStyles} from '@material-ui/styles'
 import {Info, Security} from "@material-ui/icons";
 import Link from "next/link";
 import {Toolbar} from "@material-ui/core";
-import {red} from "@mui/material/colors";
+import {InputField} from "../component/handler";
 
 export const theme = createTheme({});
-const useStyles = makeStyles({
+export const useStyles = makeStyles({
     container: {
         position: 'absolute',
         left: '50%',
         transform: 'translate(-50%, 1%)',
         textAlign: 'center'
     },
-    datepicker: {
+    field: {
         boxShadow: '0 3px 5px 2px rgba(0,0,0, .3)',
-        borderRadius: 3
+        borderRadius: 3,
     },
     btn: {
         border: 'none',
@@ -81,10 +81,10 @@ export default function Payment() {
             .catch(error => console.log('error', error));
     }
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handlerSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
     };
-    const handleCardNumber = () => {
+    const handlerCardNumber = () => {
         const rawText = Array.from(card.split(' ').join(''))
         const creditCard = [] as string[]
         rawText.forEach((t, i) => {
@@ -93,13 +93,13 @@ export default function Payment() {
         })
         return creditCard.join('')
     }
-    const handleChangeCardNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlerChangeCardNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
         const re = /[0-9]+/g;
         if (e.target.value === '' || re.test(e.target.value)) {
             setCard(e.target.value)
         } else (setCard(""))
     }
-    const handleChangeDate = (e: any, keyboardInputValue?: (string)) => {
+    const handlerChangeDate = (e: any, keyboardInputValue?: (string)) => {
         if (keyboardInputValue) {
             setDateKey(keyboardInputValue)
         }
@@ -107,13 +107,13 @@ export default function Payment() {
             setDateCard(e)
         }
     }
-    const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlerChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
         const re = /[0-9]+/g;
         if (e.target.value === '' || re.test(e.target.value)) {
             setAmount(e.target.value)
         } else (setAmount(""))
     }
-    const handleChangeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handlerChangeCvv = (e: React.ChangeEvent<HTMLInputElement>) => {
         const re = /[0-9]+/g;
         if (e.target.value === '' || re.test(e.target.value)) {
             setCvv(e.target.value)
@@ -129,13 +129,12 @@ export default function Payment() {
             <main>
                 <ThemeProvider theme={theme}>
                     <Container component="main" maxWidth="xs">
-                        <Box
-                            sx={{
-                                marginTop: 6,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}>
+                        <Box sx={{
+                            marginTop: 6,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}>
                             <Avatar sx={{height: '50px', width: '50px', m: 2, bgcolor: 'cadetblue'}}>
                                 <PaymentIcon sx={{height: '35px', width: '35px'}}/>
                             </Avatar>
@@ -144,71 +143,47 @@ export default function Payment() {
                             </Typography>
                             <Box component="form"
                                  noValidate
-                                 onSubmit={handleSubmit}
+                                 onSubmit={handlerSubmit}
                                  sx={{mt: 3}}>
                                 <Grid container
                                       spacing={2}
                                       justifyContent="center"
                                       alignItems="center">
                                     <Grid item xs={12}>
-                                        <TextField
-                                            inputProps={{maxLength: 20}}
-                                            value={handleCardNumber()}
-                                            onChange={handleChangeCardNumber}
-                                            required
-                                            fullWidth
-                                            label="Card number"
-                                            name="Card number"
-                                            autoComplete="Card number"
-                                            sx={{
-                                                boxShadow: 5,
-                                                borderRadius: 1
-                                            }}
+                                        <InputField
+                                            setState={setCard}
+                                            name={"Card number"}
+                                            value={card}
+                                            maxLength={20}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={7}>
-                                        <div className={classes.datepicker}>
+                                        <div className={classes.field}>
                                             <LocalizationProvider
                                                 dateAdapter={AdapterDateFns}>
                                                 <DatePicker
                                                     inputFormat="MM/yyyy"
                                                     label="MM/YYYY Date"
                                                     value={dateCard}
-                                                    onChange={handleChangeDate}
+                                                    onChange={handlerChangeDate}
                                                     renderInput={(params) => <TextField {...params} />}
                                                 />
                                             </LocalizationProvider>
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} sm={5}>
-                                        <TextField
-                                            required
-                                            fullWidth
+                                        <InputField
+                                            setState={setCvv}
+                                            name={"Cvv"}
                                             value={cvv}
-                                            onChange={handleChangeCvv}
-                                            inputProps={{maxLength: 3}}
-                                            id="CVV"
-                                            label="CVV"
-                                            name="CVV"
-                                            sx={{
-                                                boxShadow: 5,
-                                                borderRadius: 1
-                                            }}
+                                            maxLength={3}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <TextField
-                                            required
-                                            fullWidth
-                                            name="Amount"
-                                            label="Amount"
-                                            value={amount}
-                                            onChange={handleChangeAmount}
-                                            id="Amount"
-                                            sx={{
-                                                boxShadow: 5,
-                                                borderRadius: 1
-                                            }}
+                                        <InputField
+                                            setState={setAmount}
+                                            name={"Amount"}
+                                            value={cvv}
                                         />
                                     </Grid>
                                 </Grid>
