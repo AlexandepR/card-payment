@@ -1,5 +1,9 @@
 {
   "name": "card-payment",
+  "description": "a really cool app",
+  "engines": {
+    "node": "16.x"
+  },
   "version": "0.1.0",
   "private": true,
   "homepage": "https://AlexandepR.github.io/card-payment",
