@@ -186,7 +186,8 @@ export default function Payment() {
             }}>
                 <Typography variant="caption">©2022 Alexander, alexandepp@gmail.com</Typography>
                 <a href="https://t.me/Alexandep_R"
-                   target="_blank">
+                   // target="_blank"
+                >
                     <Avatar sx={{height: '35px', width: '35px', m: 2, bgcolor: '#5C6BC0'}}>
                         <TelegramIcon
                             style={{cursor: 'pointer'}}
