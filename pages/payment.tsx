@@ -194,19 +194,7 @@ export default function Payment() {
             <AppBar position="static" elevation={0} component="footer" color="default"
                     sx={{marginTop: 65}}>
             </AppBar>
-            <Toolbar style={{
-                justifyContent: "center"
-            }}>
-                <Typography variant="caption">©2022 Alexander, alexandepp@gmail.com</Typography>
-                <a href="https://t.me/Alexandep_R"
-                >
-                    <Avatar sx={{height: '35px', width: '35px', m: 2, bgcolor: '#5C6BC0'}}>
-                        <TelegramIcon
-                            style={{cursor: 'pointer'}}
-                            sx={{height: '25px', width: '25px'}}/>
-                    </Avatar>
-                </a>
-            </Toolbar>
+           
             <CssBaseline/>
         </React.StrictMode>
     )
