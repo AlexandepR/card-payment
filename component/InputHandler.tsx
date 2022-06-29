@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {TextField} from "@mui/material";
-import {useStyles} from "../pages/payment";
+import {useStyles} from "../pages";
+
 
 export type HandleType = {
     name: string
