@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {useStyles} from "./index";
 import Head from "next/head";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {AppBar, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
@@ -8,7 +9,6 @@ import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import {CurrentRateAPI} from "../api/api";
 import {makeStyles} from '@material-ui/styles'
-import {useStyles} from "./index";
 // import {Toolbar} from "@material-ui/core";
 // import {InputHandler} from "../component/InputHandler";
 
@@ -17,7 +17,7 @@ export const theme = createTheme({});
 
 export default function Payment() {
     const classes = useStyles()
-    
+
     const [card, setCard] = useState('')
     const [dateCard, setDateCard] = useState('')
     const [dateKey, setDateKey] = useState('')
