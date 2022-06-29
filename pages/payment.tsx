@@ -57,7 +57,7 @@ export const useStyles = makeStyles({
 export const theme = createTheme({});
 
 
-function Payment() {
+export default function Payment() {
     const classes = useStyles()
 
     const [card, setCard] = useState('')
