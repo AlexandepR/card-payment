@@ -2,18 +2,7 @@ import React, {useState} from "react";
 import {makeStyles} from '@material-ui/styles'
 import Head from "next/head";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    CircularProgress,
-    Container,
-    CssBaseline,
-    Grid,
-    TextField,
-    Typography
-} from "@mui/material";
+import {AppBar, Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import PaymentIcon from '@mui/icons-material/Payment';
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
@@ -173,10 +162,10 @@ export default function Payment() {
                                 <Grid item xs={12} sm={5}>
                                     <div className={classes.container}>
                                         <Button
-                                            // disabled={card.length !== 20 ||
-                                            // cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
+                                            disabled={card.length !== 20 ||
+                                            cvv.length !== 3 || amount.length < 1 || dateKey.length !== 7}
                                             className={`${classes.btn} ${classes.btn1}`}
-                                            // type="submit"
+                                            type="submit"
                                             fullWidth
                                             variant="contained"
                                             onClick={sendPay}
@@ -196,7 +185,19 @@ export default function Payment() {
             <AppBar position="static" elevation={0} component="footer" color="default"
                     sx={{marginTop: 65}}>
             </AppBar>
-
+            <Toolbar style={{
+                justifyContent: "center"
+            }}>
+                <Typography variant="caption">©2022 Alexander, alexandepp@gmail.com</Typography>
+                <a href="https://t.me/Alexandep_R"
+                >
+                    <Avatar sx={{height: '35px', width: '35px', m: 2, bgcolor: '#5C6BC0'}}>
+                        <TelegramIcon
+                            style={{cursor: 'pointer'}}
+                            sx={{height: '25px', width: '25px'}}/>
+                    </Avatar>
+                </a>
+            </Toolbar>
             <CssBaseline/>
         </React.StrictMode>
     )
