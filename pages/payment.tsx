@@ -46,8 +46,8 @@ export const useStyles = makeStyles({
         cursor: 'pointer',
         color: '#fff',
         backgroundSize: '250%',
-        // transition: '1s',
         backgroundPosition: 'right',
+        transition: 'background-position 1s',
         '&:hover': {
             backgroundPosition: 'left'
         }
